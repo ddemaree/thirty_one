@@ -10,7 +10,7 @@ $:<< File.join( APP_ROOT )
 $:<< File.join( APP_ROOT, "lib" )
 
 require 'active_record'
-dbconfig = YAML.load(File.read('config/database.yml'))
+dbconfig = YAML.load(ERB.new(File.read('config/database.yml')).result)
 ActiveRecord::Base.establish_connection dbconfig[ENV['RACK_ENV']]
 
 require "thirty_one"
