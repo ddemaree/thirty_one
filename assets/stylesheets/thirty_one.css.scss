@@ -1,0 +1,230 @@
+//= require bootstrap.min
+//= require_self
+
+$serif-fonts: 'ff-meta-serif-web-pro', Georgia, serif;
+$sans-serif-fonts: 'ff-dagny-web-pro', Helvetica, Arial, sans-serif;
+
+@mixin clearfix {
+  /* For modern browsers */
+  &:before,
+  &:after {
+    content:"";
+    display:table;
+  }
+
+  &:after {
+    clear:both;
+  }
+
+  /* For IE 6/7 (trigger hasLayout) */
+  & {
+    zoom:1;
+  }
+}
+
+.group {
+  @include clearfix;
+}
+
+html, body {
+  background: #f2f1f1;
+}
+
+body {
+  // color: #f2f1f1;
+  font-family: $sans-serif-fonts;
+}
+
+label, input, select, textarea {
+  font-family: $sans-serif-fonts;
+}
+
+.banner {
+  padding: 80px 0 40px;
+  text-align: center;
+  
+  h1 {
+    width: 480px;
+    margin: 0 auto;
+    font-size: 40px;
+    line-height: 48px;
+  }
+  p {
+    color: #666;
+    font-weight: 300;
+    font-family: $serif-fonts;
+    font-size: 18px;
+    line-height: 24px;
+    width: 600px;
+    margin: 10px auto 0;
+  }
+  .big-logo {
+    margin-bottom: 10px;
+  }
+}
+
+.help-block, .help-inline {
+  color: #a6a2a2;
+  font-family: $sans-serif-fonts;
+}
+
+.divider {
+  text-align: center;
+  margin: 10px 0 20px;
+}
+
+.section-info {
+  padding-top: 10px;
+  h2 { 
+    font-family: $sans-serif-fonts;
+    font-weight: 400;
+    line-height: 26px; 
+    margin-bottom: 10px; 
+  }
+  p {
+    font-family: $serif-fonts;
+    font-weight: 400;
+    color: #666;
+  }
+}
+
+section + section {
+  margin-top: 15px;
+}
+
+.answer-area {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 3px 3px rgba(#cccaca, 0.3);
+  border-color: #ccc;
+}
+
+.obvious-label {
+  & {
+    font-family: $sans-serif-fonts;
+    border-radius: 4px;
+    padding: 5px;
+    display: block;
+    width: auto;
+    float: none;
+    background: #fff;
+    border: 1px solid #fff;
+    text-align: left;
+    color: #999;
+  }
+  &:hover {
+    background-color: #f6f6f6;
+    color: #444;
+  }
+  &.checked {
+    background: mix(#fff, #ffa, 60%); 
+    color: #444; 
+    font-weight: 600;
+  }
+}
+
+table.datetimes {
+  @extend .answer-area;
+  tr+tr td { border-top: 0; border-bottom: 0; }
+  td+td, th+th { border-left-color: #ccc; }
+  th { border-bottom: 0; padding-bottom: 0; }
+  tbody {
+    tr:first-child td {
+      padding-top: 8px;
+    }
+    tr:last-child td {
+      padding-bottom: 8px;
+    }
+  }
+  
+  td {
+    padding: 5px 5px 4px;
+  }
+  
+  label {
+    @extend .obvious-label;
+  }
+  
+  .checked {
+    label { @extend .obvious-label.checked; }
+  }
+  
+  .day-header {
+    .day-of-week, time {
+      display: block;
+      font-size: 22px;
+      line-height: 22px;
+    }
+    
+    .day-of-week {
+      font-size: 15px;
+    }
+  }
+}
+
+.email-section {
+  .section-body {
+    padding-top: 10px;
+    padding-left: 5px;
+  }
+  .help-block {
+    margin-top: 4px;
+  }
+  input[type=text]{
+    font-size: 24px;
+    height: 28px;
+  }
+}
+
+.places-section {
+  .places-list {    
+    @extend .answer-area;
+  }
+  
+  .places-list-section {
+    h3 {
+      border: 1px solid #fff;
+      margin: 0;
+      padding: 10px 8px;
+      background: #f3f3f3;
+      line-height: 1.3em;
+    }
+    &:first-child {
+      h3 { border-radius: 4px 4px 0 0; }
+    }
+  }
+  
+  .places-list-section + .places-list-section {
+    border-top: 1px solid #ccc;
+  }
+  
+  .notes {
+    padding: 10px;
+  }
+  
+  ul {
+    @include clearfix;
+    margin-bottom: 10px;
+    margin-top: 0;
+    padding: 10px 5px;
+    li {
+      float: left;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      width: 186px;
+    }
+    li:nth-child(3n){
+      margin-right: 0;
+    }
+  }
+  
+  label {
+    @extend .obvious-label;
+  }  
+}
+
+.actions {
+  padding: 20px 0 80px;
+  text-align: center;
+}
