@@ -1,11 +1,7 @@
 # A sample Gemfile
 source "http://rubygems.org"
 
-# gem "rails"
-gem 'sqlite3'
 gem 'activerecord', '~> 3.1'
-# gem 'activerecord-sqlite3-adapter'
-
 gem 'activesupport', '~> 3.1'
 gem 'sinatra'
 gem 'shotgun'
@@ -16,3 +12,11 @@ gem 'coffee-script'
 group :development do
   gem 'heroku'
 end
+
+group :development, :test do
+  gem 'sqlite3'
+end
+
+# group :production do
+#   gem 'pg'
+# end
