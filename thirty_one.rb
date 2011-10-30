@@ -114,6 +114,9 @@ module ThirtyOne
     end
 
     get '/' do
+      params['party'] ||= {}
+      params['party']['email'] ||= params['email']
+      @party = Party.new(params['party'])
       erb :index
     end
 
