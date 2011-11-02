@@ -63,8 +63,11 @@ module ThirtyOne
 
   class App < ::Sinatra::Base
     helpers do
-      def datetime_key_path(date, hour)
-        "datetime.#{date.strftime('%m%d')}_#{hour}p"
+      def datetime_key_path(date, hour=nil)
+        "".tap do |output|
+          output << "datetime_#{date.strftime('%m%d')}"
+          output << ".#{hour}p" if hour
+        end
       end
       
       def time_range(hour)

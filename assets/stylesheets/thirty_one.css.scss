@@ -1,7 +1,20 @@
-//= require bootstrap.min
+//= require primer
 //= require_self
 
-$serif-fonts: 'ff-meta-serif-web-pro', Georgia, serif;
+$columnWidth: 40px;
+$gutterWidth: 20px;
+
+$mobilePortraitWidth: 320px;
+$mobileLandscapeWidth: 480px;
+$tabletPortraitWidth: 768px;
+$tabletLandscapeWidth: 1024px;
+$widescreenWidth: 1200px;
+
+@function grid-span($units){
+  @return ($units * $columnWidth) + (($units - 1) * $gutterWidth);
+}
+
+$serif-fonts: 'ff-tisa-web-pro', Georgia, serif;
 $sans-serif-fonts: 'ff-dagny-web-pro', Helvetica, Arial, sans-serif;
 
 @mixin clearfix {
@@ -22,8 +35,14 @@ $sans-serif-fonts: 'ff-dagny-web-pro', Helvetica, Arial, sans-serif;
   }
 }
 
-.group {
-  @include clearfix;
+@mixin fullFluidWidth {
+  width: percentage(280/300);
+  @media screen and (min-width: 320px){
+    width: percentage(440/460);
+  }
+  @media screen and (min-width: 768px){
+    width: percentage(728/748);
+  }
 }
 
 html, body {
@@ -31,8 +50,26 @@ html, body {
 }
 
 body {
-  // color: #f2f1f1;
+  min-width: 320px;
   font-family: $sans-serif-fonts;
+}
+
+.container {
+  margin: 0 auto;
+  width: percentage(300/320);
+  @media screen and (min-width: 320px){
+    width: percentage(460/480);
+  }
+  @media screen and (min-width: 768px){
+    width: percentage(700/768);
+  }
+  @media screen and (min-width: 1024px){
+    width: 940px;
+  }
+}
+
+.group {
+  @include clearfix;
 }
 
 label, input, select, textarea {
@@ -40,57 +77,126 @@ label, input, select, textarea {
 }
 
 .banner {
-  padding: 80px 0 40px;
+  padding: 40px 0;
   text-align: center;
-  
+
   h1 {
-    width: 480px;
     margin: 0 auto;
-    font-size: 40px;
-    line-height: 48px;
+    font-size: 27px;
+    line-height: 30px;
   }
   p {
     color: #666;
     font-weight: 300;
     font-family: $serif-fonts;
-    font-size: 18px;
-    line-height: 24px;
-    width: 600px;
+    font-size: 15px;
+    line-height: 20px;
     margin: 10px auto 0;
+    width: percentage(270/300);
   }
   .big-logo {
     margin-bottom: 10px;
   }
+  @media screen and (min-width:640px){
+    h1 {
+      font-size: 36px;
+      line-height: 40px;
+    }
+  }
+  @media screen and (min-width:768px){
+    p {
+      font-size: 20px;
+      line-height: 23px;
+      width: percentage(640/700);
+    }
+  }
+  @media screen and (min-width:940px){
+    h1 {
+      font-size: 40px;
+      line-height: 45px;
+      width: percentage(580/940);
+    }
+    p {
+      width: percentage(640/940);
+    }
+  }
 }
 
-.help-block, .help-inline {
-  color: #a6a2a2;
-  font-family: $sans-serif-fonts;
+.help-block {
+  color: lighten(#000, 65%);
 }
 
-.divider {
-  text-align: center;
-  margin: 10px 0 20px;
+.field + .field {
+  margin-top: 15px;
+}
+
+.section {
+  @include clearfix;
+  border-top: 1px solid #ccc;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  & + .section {
+    margin-top: 25px;
+  }
+}
+
+.section-info,
+.section-body {
+  @include fullFluidWidth;
+  margin: 0 auto;
+  @media screen and (min-width:768px){
+    margin: 0;
+  }
 }
 
 .section-info {
-  padding-top: 10px;
-  h2 { 
+  padding-bottom: 15px;
+
+  h2 {
     font-family: $sans-serif-fonts;
     font-weight: 400;
-    line-height: 26px; 
-    margin-bottom: 10px; 
+    font-size: 24px;
+    line-height: 26px;
+    margin-bottom: 8px;
   }
   p {
     font-family: $serif-fonts;
+    font-size: 15px;
+    line-height: 20px;
     font-weight: 400;
     color: #666;
   }
+  p + p {
+    margin-top: 8px;
+  }
+
+  @media screen and (min-width:768px){
+    float: left;
+    //margin-left: percentage(40/700);
+    width: percentage(220/700);
+  }
+  @media screen and (min-width: 940px){
+    // margin-left: percentage(40/940);
+    width: percentage(280/940);
+  }
 }
 
-section + section {
-  margin-top: 15px;
+@function grid-percentage($a, $b) {
+  @return percentage(grid-span($a)/grid-span($b));
 }
+
+.section-body {
+  @media screen and (min-width:768px){
+    float: right;
+    width: percentage( grid-span(8) / grid-span(12) );
+  }
+  @media screen and (min-width: 1024px){
+    width: percentage( grid-span(11) / grid-span(16) );
+  }
+}
+
+// White, rounded-corner answer areas
 
 .answer-area {
   border: 1px solid #ccc;
@@ -100,131 +206,275 @@ section + section {
   border-color: #ccc;
 }
 
-.obvious-label {
-  & {
-    font-family: $sans-serif-fonts;
-    border-radius: 4px;
-    padding: 5px;
-    display: block;
-    width: auto;
-    float: none;
-    background: #fff;
-    border: 1px solid #fff;
-    text-align: left;
-    color: #999;
-  }
-  &:hover {
-    background-color: #f6f6f6;
-    color: #444;
-  }
-  &.checked {
-    background: mix(#fff, #ffa, 60%); 
-    color: #444; 
-    font-weight: 600;
+.answer-area-header {
+  font-size: 15px;
+  line-height: 16px;
+  padding: 5px;
+  border-bottom: 1px solid #bbb;
+
+  h3 { display: inline; }
+  a {
+    font-size: 13px;
+    padding: 10px 5px;
+    text-decoration: none;
   }
 }
 
-table.datetimes {
-  @extend .answer-area;
-  tr+tr td { border-top: 0; border-bottom: 0; }
-  td+td, th+th { border-left-color: #ccc; }
-  th { border-bottom: 0; padding-bottom: 0; }
-  tbody {
-    tr:first-child td {
-      padding-top: 8px;
-    }
-    tr:last-child td {
-      padding-bottom: 8px;
+// Obvious labels are obvious
+
+.obvious-label {
+  & {
+    border-bottom: 1px solid #eee;
+    color: #999;
+    display: block;
+    font-family: $sans-serif-fonts;
+    font-size: 17px;
+    line-height: 20px;
+    padding: 10px;
+    text-align: left;
+    width: auto;
+    input[type=checkbox]{
+      font-size: 17px;
     }
   }
-  
-  td {
-    padding: 5px 5px 4px;
+  &.checked, &:hover {
+    .label-text {
+      background: mix(#fff, #ffa, 60%);
+      color: #444;
+      text-shadow: 1px 1px 0 #fff;
+    }
   }
-  
+}
+
+// Specific sections
+
+.email-section {
+  .help-block {
+    margin-top: 5px;
+  }
+  input[type=text]{
+    font-size: 24px;
+    height: 28px;
+    width: percentage(270/280);
+  }
+}
+
+.days-section {
+  .answer-area {
+    @include clearfix;
+    margin: 0 -5px;
+    padding: 5px;
+  }
+  .day-header {
+    @extend .answer-area-header;
+    
+    @media screen and (min-width: 1024px) {
+      .day-of-week, time {
+        display: block;
+        padding: 0 5px;
+        line-height: 22px;
+      }
+      time {
+        font-size: 22px;
+      }
+      a {
+        display: block;
+        padding: 10px 5px;
+      }
+    }
+  }
+  .day {
+    margin-bottom: 15px;
+    @media screen and (min-width: 1024px) {
+      border-left: 1px solid #bbb;
+      float: left;
+      margin-bottom: 0;
+      position: relative;
+      width: 126px;
+
+      &:nth-child(1) {
+        width: 126px;
+        border: 0;
+      }
+    }
+  }
   label {
     @extend .obvious-label;
-  }
-  
-  .checked {
-    label { @extend .obvious-label.checked; }
-  }
-  
-  .day-header {
-    .day-of-week, time {
-      display: block;
-      font-size: 22px;
-      line-height: 22px;
+    @media screen and (min-width: 1024px){
+      font-size: 14px;
     }
+  }
+  li:last-child {
+    label {
+      @media screen and (min-width: 1024px){
+        border-bottom: 0;
+      }
+    }
+  }
+  input[type=checkbox]{
+    width: 16px;
+  }
+}
+
+.places-section {
+  .places-list {
+    @extend .answer-area;
+    margin: 0 -5px;
+    padding: 5px;
+  }
+  .checkbox-sections {
+    @include clearfix;
+  }
+  .places-list-header {
+    @extend .answer-area-header;
+    padding: 10px;
     
-    .day-of-week {
+    h3 {
+      font-size: 17px;
+      //padding-left: 5px;
+    }
+  }
+  .places-list-section {
+    @media screen and (min-width:1024px){
+      float: left;
+      width: 210px;
+      &.notes-section {
+        clear: both;
+        float: none;
+        width: auto;
+      }
+      &#drinks-section {
+        width: 212px;
+      }
+    }
+  }
+  .places-list-section + .places-list-section {
+    margin-top: 15px;
+    @media screen and (min-width:1024px){
+      margin-top: 0;
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+  .places-list-section.notes-section {
+    margin-top: 15px;
+  }
+  .notes {
+    padding: 15px 10px 10px;
+    textarea {
+      min-height: 60px;
+      padding: 5px;
+      width: percentage(247/257);
+      @media screen and (min-width:1024px){
+        width: percentage(622/634);
+      }
+    }
+  }
+  ul {
+    @include clearfix;
+  }
+  label {
+    @extend .obvious-label;
+    @media screen and (min-width:1024px){
       font-size: 15px;
     }
   }
 }
 
-.email-section {
-  .section-body {
-    padding-top: 10px;
-    padding-left: 5px;
-  }
-  .help-block {
-    margin-top: 4px;
-  }
-  input[type=text]{
-    font-size: 24px;
-    height: 28px;
-  }
+
+// Ported from Twitter's Bootstrap stylesheet
+@mixin triGradient($fromColor:#fff, $midColor:#fff, $colorStop:25%, $endColor:#e5e5e5) {
+  background-color: $endColor;
+  background-repeat: no-repeat;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from($fromColor), color-stop($colorStop, $midColor), to($endColor));
+  background-image: -webkit-linear-gradient($fromColor, $midColor $colorStop, $endColor);
+  background-image: -moz-linear-gradient($fromColor, $midColor $colorStop, $endColor);
+  background-image: -ms-linear-gradient($fromColor, $midColor $colorStop, $endColor);
+  background-image: -o-linear-gradient($fromColor, $midColor $colorStop, $endColor);
+  background-image: linear-gradient($fromColor, $midColor $colorStop, $endColor);
 }
 
-.places-section {
-  .places-list {    
-    @extend .answer-area;
-  }
+.btn {
+  // @include fullFluidWidth;
+  @include triGradient(#fff, #fff, 25%, #e5e5e5);
+  cursor: pointer;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-bottom-color: #bbb;
+  border-radius: 4px;
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 16px;
+  padding: 10px 20px 12px;
+  text-shadow: 0 1px 1px rgba(#fff, 0.75);
   
-  .places-list-section {
-    h3 {
-      border: 1px solid #fff;
-      margin: 0;
-      padding: 10px 8px;
-      background: #f3f3f3;
-      line-height: 1.3em;
-    }
-    &:first-child {
-      h3 { border-radius: 4px 4px 0 0; }
-    }
+  &:hover {
+    background-position: 0 -15px;
+    color: #333;
+    text-decoration: none;
   }
-  
-  .places-list-section + .places-list-section {
-    border-top: 1px solid #ccc;
+
+  // Focus state for keyboard and accessibility
+  &:focus {
+    outline: 1px dotted #666;
   }
-  
-  .notes {
-    padding: 10px;
-  }
-  
-  ul {
-    @include clearfix;
-    margin-bottom: 10px;
-    margin-top: 0;
-    padding: 10px 5px;
-    li {
-      float: left;
-      margin-right: 5px;
-      margin-bottom: 5px;
-      width: 186px;
-    }
-    li:nth-child(3n){
-      margin-right: 0;
-    }
-  }
-  
-  label {
-    @extend .obvious-label;
-  }  
 }
 
 .actions {
+  border-top: 1px solid #ccc;
+  margin-top: 20px;
   padding: 20px 0 80px;
   text-align: center;
+  
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+    margin: 0 auto;
+    width: percentage(240/300);
+  }
+  
+  ul, p, li {
+    font-family: $serif-fonts;    
+    font-size: 15px;
+    line-height: 20px;
+    margin: 10px auto;
+    width: percentage(260/300);
+  }
+  
+  ul {
+    list-style-type: square;
+    text-align: left;
+
+    li {
+      margin-left: 20px;
+      width: auto;
+    }
+    li + li {
+      margin-top: 5px;
+    }
+    
+    @media screen and (min-width:768px) {
+      width: percentage(grid-span(9) / 700px);
+    }
+  }
+  
+  p {
+    margin: 20px auto;
+  }
+  
+  .btn {
+    margin-bottom: 10px;
+    width: percentage(280/300);
+    
+    @media screen and (min-width: 320px){
+      width: percentage(440/460);
+    }
+    @media screen and (min-width: 480px) {
+      width: 200px;
+      margin-bottom: 0;
+    }
+  }
 }

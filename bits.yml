@@ -1,8 +1,8 @@
 ---
-  datetime:
   <% (Date.parse("2011-12-01")..Date.parse("2011-12-05")).each do |day| %>
+  datetime_<%= day.strftime('%m%d') %>:
     <% [6,8,10].each do |hour| %>
-    <%= "#{day.strftime('%m%d')}_#{hour}p" %>:
+    <%= "#{hour}p" %>:
       date: <%= day.to_s %>
       hour: <%= hour %>
     <% end %>
