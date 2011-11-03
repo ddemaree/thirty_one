@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>31 | demaree • me</title>
+    <title>31 on demaree•me</title>
     <link href="<%= asset_path "thirty_one.css" %>" rel="stylesheet">
-    <!-- <script type="text/javascript" src="http://use.typekit.com/kgz0gmz.js"></script><script type="text/javascript">try{Typekit.load();}catch(e){}</script> -->
-    
-    <script type="text/javascript" src="http://use.typekit.com/mcj6sta.js"></script>
+    <script type="text/javascript" src="http://use.typekit.com/<%= @kit_id ||= "mcj6sta" %>.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
     <script src="<%= asset_path("application.js") %>" type="text/javascript" charset="utf-8"></script>
+    <meta name="viewport" content="width=device-width">
   </head>
   <body>
     <div class="container">
