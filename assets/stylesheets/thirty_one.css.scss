@@ -45,6 +45,10 @@ $sans-serif-fonts: 'ff-dagny-web-pro', Helvetica, Arial, sans-serif;
   }
 }
 
+.wf-loading * {
+  visibility: hidden;
+}
+
 html, body {
   background: #f2f1f1;
 }
