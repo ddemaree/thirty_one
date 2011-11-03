@@ -14,7 +14,7 @@ namespace :db do
     ActiveRecord::Migration.verbose = true
     ActiveRecord::Migrator.migrate( File.expand_path("../db/migrate", __FILE__) )
   end
-
+  
   namespace :schema do
     desc "Create a db/schema.rb file that can be portably used against any DB supported by AR"
     task :dump => :environment do
