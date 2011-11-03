@@ -16,7 +16,10 @@
         </div>
         <h1>Come celebrate 31 years<br> of social awkwardness.</h1>
         <p>
-          Against all odds and any semblance of logic, I, <a href="http://twitter.com/ddemaree">David Demaree</a>, will soon be a year older. I know, right? We should have a party or something to reflect on this situation. In order to schedule and plan this party, if you're interested in coming, I will need some information from you. Please fill out the form below precisely as directed.
+          Against all odds and any semblance of logic, I, <a href="http://twitter.com/ddemaree">David Demaree</a>, will soon be a year older. I know, right? We should have a party or something, to reflect on this situation.
+        </p>
+        <p>
+          If you're interested in coming, in order to schedule and plan this party I will need some information from you. Please fill out the form below precisely as directed, then press the big, shiny submit button at the bottom.
         </p>
       </header>
 
@@ -25,7 +28,6 @@
           <div class="span4 offset1 section-info">
             <h2>Who are you, again?</h2>
             <p class="section-notes">I'm kidding&mdash;<em>of course</em> I know who you are. Unfortunately the computer does not. Please type in your name and email address, and mark yourself in the books of history as "interested in this party."</p>
-            <p class="section-notes">An added bonus: Further spam related to this birthday will be sent <em>only</em> to the email address you provide here.</p>
           </div>
           <div class="section-body">
             
@@ -38,6 +40,8 @@
               <input type="text" name="party[email]" class="xlarge span7" placeholder="gene@kissarmy.net" value="<%= @party.email %>">
               <p class="help-block">This field is <strong>required</strong>. It <strong>must</strong> be a valid email address. The European debt crisis <strong>is</strong> complicated.</p>
             </div>
+            
+            <!-- <p class="section-notes">An added bonus: Further spam related to this birthday will be sent <em>only</em> to the email address you provide here.</p> -->
             
           </div>
         </section>
@@ -68,8 +72,8 @@
                   </div>
                   <ul>
                     <% [6,8,10].each do |hour| %>
-                    <li data-bind="css: { 'checked': (bits().indexOf('<%= datetime_key_path(day, hour) %>') > -1) }">
-                      <label>
+                    <li>
+                      <label data-bind="css: { 'checked': (bits().indexOf('<%= datetime_key_path(day, hour) %>') > -1) }">
                         <input type="checkbox" name="party[bits][]" value="<%= datetime_key_path(day, hour) %>" data-bind="checked: bits" <%= 'checked' if @party.bits.include?(datetime_key_path(day, hour)) %>>
                         <span class="label-text"><%= time_range(hour) %></span>
                       </label>
@@ -86,8 +90,8 @@
         <section class="section row places-section">
           <div class="span4 offset1 section-info">
             <h2>What sounds good?</h2>
-            <p class="section-notes">To get a sense of what people are up for, so I can decide what the hell I want to <em>do</em> on my birthday, please check any of the places or activities you're interested in. There is also a write-in area at the bottom, to suggest places/activities that aren't listed.</p>
-            <p class="section-notes">This is not voting <em>per se</em>; it's more like a way for me to know before inviting all of you to (for example) a crazy molecular cocktail bar or Michelin-starred pig-eteria whether that kind of thing will delight or disgust my friends.</p>
+            <p class="section-notes">
+              Please check any of the places or activities you're interested in. There is also a write-in area at the bottom, to suggest places/activities that aren't listed. This is not <em>voting</em> so much as a way of knowing before I invite everyone to (for example) a crazy molecular cocktail bar or Michelin-starred pig-eteria whether that kind of thing will delight or disgust my friends.</p>
           </div>
 
           <div class="span10 section-body">

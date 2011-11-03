@@ -106,13 +106,13 @@ label, input, select, textarea {
       font-size: 36px;
       line-height: 40px;
     }
-  }
-  @media screen and (min-width:768px){
     p {
       font-size: 20px;
       line-height: 23px;
-      width: percentage(640/700);
     }
+  }
+  @media screen and (min-width:768px){
+
   }
   @media screen and (min-width:940px){
     h1 {
@@ -226,10 +226,24 @@ label, input, select, textarea {
 
 // Obvious labels are obvious
 
+.label-trigger {
+  color: #444;
+  display: block;
+  text-decoration: none;
+
+  &:hover {
+    // background-color: mix(#fff, #ffa, 90%);
+  }
+  &:active {
+    background-color: #e5e5e5;
+    .label-text { background-color: transparent; }
+  }
+}
+
 .obvious-label {
   & {
     border-bottom: 1px solid #eee;
-    color: #999;
+    // color: #999;
     display: block;
     font-family: $sans-serif-fonts;
     font-size: 17px;
@@ -241,12 +255,16 @@ label, input, select, textarea {
       font-size: 17px;
     }
   }
-  &.checked, &:hover {
+  &.checked {
     .label-text {
       background: mix(#fff, #ffa, 60%);
-      color: #444;
+      color: #222;
       text-shadow: 1px 1px 0 #fff;
     }
+  }
+  &:active {
+    background-color: #e5e5e5;
+    .label-text { background-color: transparent; }
   }
 }
 

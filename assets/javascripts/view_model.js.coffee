@@ -22,6 +22,16 @@ class window.Party
     else
       "Select all"
   
+  bitSelected: (bit)->
+    @bits().indexOf(bit) > -1
+  
+  toggleBit: (bit)->
+    console.log('Bit toggled')
+    if (idx = @bits().indexOf(bit)) > -1
+      @bits.splice(idx, 1)
+    else
+      @bits.push(bit)
+  
   bitsInNamespace: (ns) ->
     @bits().filter (bit)->
       return bit.match('^'+ns)
