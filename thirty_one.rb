@@ -25,6 +25,10 @@ module ThirtyOne
   end
   
   class RandomPhrase
+    def self.entropy
+      97 * (ADJECTIVES.length * NOUNS.length)
+    end
+    
     ADJECTIVES = [
       "cute", "dapper", "large", "small", "long", "short", "thick", "narrow",
       "deep", "flat", "whole", "low", "high", "near", "far", "fast",
@@ -37,7 +41,7 @@ module ThirtyOne
       "strong", "weak", "able", "free", "rich", "afraid", "brave", "fine",
       "sad", "proud", "comfortable", "happy", "clever", "interesting", "famous", "exciting",
       "funny", "kind", "polite", "fair", "share", "busy", "free", "lazy",
-      "lucky", "careful", "safe", "dangerous"
+      "lucky", "careful", "safe", "dangerous", "quirky", "spunky", "fresh"
     ]
 
     # English plural nouns (all animals)
