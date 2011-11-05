@@ -41,7 +41,8 @@ module ThirtyOne
       "strong", "weak", "able", "free", "rich", "afraid", "brave", "fine",
       "sad", "proud", "comfortable", "happy", "clever", "interesting", "famous", "exciting",
       "funny", "kind", "polite", "fair", "share", "busy", "free", "lazy",
-      "lucky", "careful", "safe", "dangerous", "quirky", "spunky", "fresh"
+      "lucky", "careful", "safe", "dangerous", "quirky", "spunky", "fresh",
+      "nervous", "gassy", "boisterous"
     ]
 
     # English plural nouns (all animals)
@@ -55,7 +56,7 @@ module ThirtyOne
       "clams", "cockles", "mussels", "oysters", "snails", "cattle", "dogs", "donkeys",
       "goats", "horses", "pigs", "sheep", "ferrets", "gerbils", "guinea pigs", "parrots",
       "monkeys", "gorillas", "eagles", "lions", "leopards", "tigers", "panthers", "jaguars",
-      "bears"
+      "bears", "portlanders", "chicagoans", "kestrels", "beagles", "spaniels"
     ]
     
     VERBS = [
