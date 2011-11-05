@@ -2,8 +2,12 @@ task :environment do
   require File.expand_path( "../config/environment", __FILE__ )
 end
 
-require 'rspec/core/rake_task'
-RSpec::Core::RakeTask.new
+begin
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new
+rescue => e
+  puts "RSpec tasks not available in production"
+end
 
 task :default => [:spec]
 
