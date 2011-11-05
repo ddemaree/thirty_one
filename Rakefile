@@ -2,10 +2,36 @@ task :environment do
   require File.expand_path( "../config/environment", __FILE__ )
 end
 
-# require 'rspec/core/rake_task'
-# RSpec::Core::RakeTask.new
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new
 
 task :default => [:spec]
+
+namespace :assets do
+  def precompiled_assets
+    [].tap do |arr|
+      arr.concat Dir[File.join(APP_ROOT, "assets", "images", "*")].map { |f| File.basename(f)  }
+      arr << "thirty_one.css"
+      arr << "application.js"
+    end
+  end
+  
+  task :precompile => :environment do
+    target = File.join(APP_ROOT, "public", "assets")
+    
+    @_env = ThirtyOne.sprockets_environment
+    @_env.each_logical_path do |logical_path|
+      next unless precompiled_assets.include?(logical_path)
+      if asset = @_env.find_asset(logical_path)
+        puts "Precompile #{logical_path}"
+        filename = File.join(target, asset.digest_path)
+        FileUtils.mkdir_p File.dirname(filename)
+        asset.write_to(filename)
+        # asset.write_to("#{filename}.gz") if filename.to_s =~ /\.(css|js)$/
+      end
+    end
+  end
+end
 
 namespace :db do
   desc "Migrate the database"

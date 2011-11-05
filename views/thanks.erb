@@ -1,0 +1,25 @@
+<div class="thanks">
+  <header class="banner">
+    <div class="big-logo">
+      <img src="<%= asset_path "disc-200px.png" %>">
+    </div>
+    <h1>Thanks!</h1>
+    <p>
+      Your responses have been incorporated into my Party Planning Decision Matrix&trade;. Once it has finished tabulating, calculating, and vituperating, I'll be in touch to let you know when and where the party's at.
+    </p>
+  </header>
+  <div class="party-info">
+    <div class="link">
+      <h3>Your Private URL</h3>
+      <p>If you need to make any changes to any of the information you just provided, just use the following address:</p>  
+      <p class="secret-url">
+        <a href="<%= url("/party/#{@party.to_param}") %>">
+          <%= url("/party/#{@party.to_param}") %>
+        </a>
+      </p>
+      <p>This is a special, secret URL; I made it just for you. (Awww!)</p>
+    </div>
+
+    <p class="email">Questions or problems? Please email <a href="mailto:david@demaree.me">david@demaree.me</a>.</p>
+  </div>
+</div>

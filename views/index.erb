@@ -1,178 +1,168 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>31 on demaree•me</title>
-    <link href="<%= asset_path "thirty_one.css" %>" rel="stylesheet">
-    <script type="text/javascript" src="http://use.typekit.com/<%= @kit_id ||= "mcj6sta" %>.js"></script>
-    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-    <script src="<%= asset_path("application.js") %>" type="text/javascript" charset="utf-8"></script>
-    <meta name="viewport" content="width=device-width">
-  </head>
-  <body>
-    <div class="container">
-      <header class="banner">
-        <div class="big-logo">
-          <img src="http://placehold.it/150x150">
+<div class="party-form">
+  <header class="banner">
+    <div class="big-logo">
+      <!-- <img src="http://placehold.it/150x150"> -->
+      <img src="<%= asset_path "disc-200px.png" %>">
+    </div>
+    <h1>Come celebrate 31 years<br> of social awkwardness.</h1>
+    <p>
+      Against all odds and any semblance of logic, I, <a href="http://twitter.com/ddemaree">David Demaree</a>, will soon be a year older. I know, right? We should have a party or something, to reflect on this situation.
+    </p>
+    <p>
+      If you're interested in coming, in order to schedule and plan this party I will need some information from you. Please fill out the form below precisely as directed, then press the big, shiny submit button at the bottom.
+    </p>
+  </header>
+
+  <form action="<%= @party.persisted? ? url("/party/#{@party.unique_phrase}") : url("/parties") %>" method="post">
+    <section class="section row email-section">
+      <div class="span4 offset1 section-info">
+        <h2>Who are you, again?</h2>
+        <p class="section-notes">I'm kidding&mdash;<em>of course</em> I know who you are. Unfortunately the computer does not. Please type in your name and email address, and mark yourself in the books of history as "interested in this party."</p>
+      </div>
+      <div class="section-body">
+      
+        <div class="field" id="party-name">
+          <input type="text" name="party[name]" class="xlarge span7" placeholder="Gene Simmons" value="<%= @party.name %>">
+          <p class="help-block">This field is <strong>required</strong>. Cookies <strong>are</strong> delicious.</p>
         </div>
-        <h1>Come celebrate 31 years<br> of social awkwardness.</h1>
-        <p>
-          Against all odds and any semblance of logic, I, <a href="http://twitter.com/ddemaree">David Demaree</a>, will soon be a year older. I know, right? We should have a party or something, to reflect on this situation.
-        </p>
-        <p>
-          If you're interested in coming, in order to schedule and plan this party I will need some information from you. Please fill out the form below precisely as directed, then press the big, shiny submit button at the bottom.
-        </p>
-      </header>
+      
+        <div class="field" id="party-email">
+          <input type="text" name="party[email]" class="xlarge span7" placeholder="gene@kissarmy.net" value="<%= @party.email %>">
+          <p class="help-block">This field is <strong>required</strong>. It <strong>must</strong> be a valid email address. The European debt crisis <strong>is</strong> complicated.</p>
+        </div>
+      
+        <!-- <p class="section-notes">An added bonus: Further spam related to this birthday will be sent <em>only</em> to the email address you provide here.</p> -->
+      
+      </div>
+    </section>
 
-      <form action="<%= @party.persisted? ? url("/parties/#{@party.id}") : url("/parties") %>" method="post">
-        <section class="section row email-section">
-          <div class="span4 offset1 section-info">
-            <h2>Who are you, again?</h2>
-            <p class="section-notes">I'm kidding&mdash;<em>of course</em> I know who you are. Unfortunately the computer does not. Please type in your name and email address, and mark yourself in the books of history as "interested in this party."</p>
-          </div>
-          <div class="section-body">
-            
-            <div class="field" id="party-name">
-              <input type="text" name="party[name]" class="xlarge span7" placeholder="Gene Simmons" value="">
-              <p class="help-block">This field is <strong>required</strong>. Cookies <strong>are</strong> delicious.</p>
+    <section class="section row days-section">
+      <div class="span4 offset1 section-info">
+        <h2>When are you free?</h2>
+        <p class="section-notes">Check all the times you&rsquo;re available to par-tay. If you&rsquo;re not sure feel free to leave a box unchecked. You can also come back and change your answers later when you're more sure.</p>
+        <p>You <strong>must</strong> choose at least one time.</p>
+      </div>
+
+      <div class="section-body">
+        <div class="answer-area">
+          <% @days.each do |day| %>
+            <div class="day">
+              <div class="day-header">
+                <h3>
+                  <span class="day-of-week"><%= day.strftime("%A") %></span>
+                  <time datetime="<%= day.strftime("%Y-%m-%d") %>"><%= day.strftime("%m/%e").gsub(/ /,"") %></time>
+                </h3>
+                <a href="#" data-bind="
+                  html: toggleLabel('<%= datetime_key_path(day) %>'),
+                  click: function(){
+                    toggleAll('<%= datetime_key_path(day) %>')
+                  }">
+                  Toggle
+                </a>
+              </div>
+              <ul>
+                <% [6,8,10].each do |hour| %>
+                <li>
+                  <label data-bind="css: { 'checked': (bits().indexOf('<%= datetime_key_path(day, hour) %>') > -1) }">
+                    <input type="checkbox" name="party[bits][]" value="<%= datetime_key_path(day, hour) %>" data-bind="checked: bits" <%= 'checked' if @party.bits.include?(datetime_key_path(day, hour)) %>>
+                    <span class="label-text"><%= time_range(hour) %></span>
+                  </label>
+                </li>
+                <% end %>
+              </ul>
             </div>
-            
-            <div class="field" id="party-email">
-              <input type="text" name="party[email]" class="xlarge span7" placeholder="gene@kissarmy.net" value="<%= @party.email %>">
-              <p class="help-block">This field is <strong>required</strong>. It <strong>must</strong> be a valid email address. The European debt crisis <strong>is</strong> complicated.</p>
-            </div>
-            
-            <!-- <p class="section-notes">An added bonus: Further spam related to this birthday will be sent <em>only</em> to the email address you provide here.</p> -->
-            
-          </div>
-        </section>
+          <% end %>
+        </div>
+      </div>
 
-        <section class="section row days-section">
-          <div class="span4 offset1 section-info">
-            <h2>When are you free?</h2>
-            <p class="section-notes">Check all the times you&rsquo;re available to par-tay. If you&rsquo;re not sure feel free to leave a box unchecked. You can also come back and change your answers later when you're more sure.</p>
-            <p>You <strong>must</strong> choose at least one time.</p>
-          </div>
+    </section>
 
-          <div class="section-body">
-            <div class="answer-area">
-              <% @days.each do |day| %>
-                <div class="day">
-                  <div class="day-header">
-                    <h3>
-                      <span class="day-of-week"><%= day.strftime("%A") %></span>
-                      <time datetime="<%= day.strftime("%Y-%m-%d") %>"><%= day.strftime("%m/%e").gsub(/ /,"") %></time>
-                    </h3>
+    <section class="section row places-section">
+      <div class="span4 offset1 section-info">
+        <h2>What sounds good?</h2>
+        <p class="section-notes">
+          Please check any of the places or activities you're interested in. There is also a write-in area at the bottom, to suggest places/activities that aren't listed. This is not <em>voting</em> so much as a way of knowing before I invite everyone to (for example) a crazy molecular cocktail bar or Michelin-starred pig-eteria whether that kind of thing will delight or disgust my friends.</p>
+      </div>
+
+      <div class="span10 section-body">
+        <div class="places-list">
+          <div class="checkbox-sections">
+
+            <% %w(dinner drinks activities).each do |namespace| %>
+              <div id="<%= namespace %>-section" class="places-list-section">
+                <div class="places-list-header">
+                  <h3>
+                    <%= namespace.capitalize %>
                     <a href="#" data-bind="
-                      html: toggleLabel('<%= datetime_key_path(day) %>'),
+                      html: toggleLabel('<%= namespace %>'),
                       click: function(){
-                        toggleAll('<%= datetime_key_path(day) %>')
+                        toggleAll('<%= namespace %>')
                       }">
                       Toggle
                     </a>
-                  </div>
-                  <ul>
-                    <% [6,8,10].each do |hour| %>
+                  </h3>
+                </div>
+                <ul class="unstyled places">
+                  <% @bits[namespace].each do |key, name| %>
                     <li>
-                      <label data-bind="css: { 'checked': (bits().indexOf('<%= datetime_key_path(day, hour) %>') > -1) }">
-                        <input type="checkbox" name="party[bits][]" value="<%= datetime_key_path(day, hour) %>" data-bind="checked: bits" <%= 'checked' if @party.bits.include?(datetime_key_path(day, hour)) %>>
-                        <span class="label-text"><%= time_range(hour) %></span>
+                      <label data-bind="css: { 'checked': (bits().indexOf('<%= namespace %>.<%= key %>') > -1) }">
+                        <input name="party[bits][]" type="checkbox" value="<%= namespace %>.<%= key %>" data-bind="checked: bits" <%= 'checked' if @party.bits.include?("#{namespace}.#{key}") %>>
+                        <span class="label-text"><%= name.gsub('&', '<span class="amp">&amp;</span>') %></span>
                       </label>
                     </li>
-                    <% end %>
-                  </ul>
-                </div>
-              <% end %>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+          </div>
+
+          <div class="places-list-section notes-section">
+            <div class="places-list-header">
+              <h3>Other ideas?</h3>
+            </div>
+            <div class="notes">
+              <textarea name="party[notes]" class="span8" rows="8"><%= @party.notes %></textarea>
             </div>
           </div>
 
-        </section>
-
-        <section class="section row places-section">
-          <div class="span4 offset1 section-info">
-            <h2>What sounds good?</h2>
-            <p class="section-notes">
-              Please check any of the places or activities you're interested in. There is also a write-in area at the bottom, to suggest places/activities that aren't listed. This is not <em>voting</em> so much as a way of knowing before I invite everyone to (for example) a crazy molecular cocktail bar or Michelin-starred pig-eteria whether that kind of thing will delight or disgust my friends.</p>
-          </div>
-
-          <div class="span10 section-body">
-            <div class="places-list">
-              <div class="checkbox-sections">
-
-                <% %w(dinner drinks activities).each do |namespace| %>
-                  <div id="<%= namespace %>-section" class="places-list-section">
-                    <div class="places-list-header">
-                      <h3>
-                        <%= namespace.capitalize %>
-                        <a href="#" data-bind="
-                          html: toggleLabel('<%= namespace %>'),
-                          click: function(){
-                            toggleAll('<%= namespace %>')
-                          }">
-                          Toggle
-                        </a>
-                      </h3>
-                    </div>
-                    <ul class="unstyled places">
-                      <% @bits[namespace].each do |key, name| %>
-                        <li>
-                          <label data-bind="css: { 'checked': (bits().indexOf('<%= namespace %>.<%= key %>') > -1) }">
-                            <input name="party[bits][]" type="checkbox" value="<%= namespace %>.<%= key %>" data-bind="checked: bits" <%= 'checked' if @party.bits.include?("#{namespace}.#{key}") %>>
-                            <span class="label-text"><%= name.gsub('&', '<span class="amp">&amp;</span>') %></span>
-                          </label>
-                        </li>
-                      <% end %>
-                    </ul>
-                  </div>
-                <% end %>
-
-              </div>
-
-              <div class="places-list-section notes-section">
-                <div class="places-list-header">
-                  <h3>Other ideas?</h3>
-                </div>
-                <div class="notes">
-                  <textarea name="party[notes]" class="span8" rows="8"><%= @party.notes %></textarea>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </section>
-
-        <div class="actions">
-          <h3>Please note before clicking one of these shiny buttons:</h3>
-          <ul>
-            <li>
-              By submitting this form, you are expressing a <em>desire</em>, perhaps even an <em>intent</em>, to attend a party, shindig, hootenanny, gathering, or whatever in celebration of David&rsquo;s 31st birthday.
-            </li>
-            <li>
-              Which implies that you will be in Chicago, Illinois, U.S.A. on one or more of the dates/times checked above. (Sorry, we will not be offering a party conference call, and television coverage of the party will be limited.)
-            </li>
-          </ul>
-          <p>
-            <strong>Still game?</strong> Awesome. Please click the button below and I'll be in touch.
-          </p>
-          
-          <button type="submit" class="btn primary">Save the date</button>
-          <button type="button" class="btn info">WTF?</button>
         </div>
-      </form>
+      </div>
+    </section>
 
+    <div class="actions">
+      <h3>Please note before clicking one of these shiny buttons:</h3>
+      <ul>
+        <li>
+          By submitting this form, you are expressing a <em>desire</em>, perhaps even an <em>intent</em>, to attend a party, shindig, hootenanny, gathering, or whatever in celebration of David&rsquo;s 31st birthday.
+        </li>
+        <li>
+          Which implies that you will be in Chicago, Illinois, U.S.A. on one or more of the dates/times checked above. (Sorry, we will not be offering a party conference call, and television coverage of the party will be limited.)
+        </li>
+      </ul>
+      <p>
+        <strong>Still game?</strong> Awesome. Please click the button below and I'll be in touch.
+      </p>
+    
+      <button type="submit" class="btn primary">Save the date</button>
+      <!-- <button type="button" class="btn info">WTF?</button> -->
     </div>
+  </form>
 
-    <%# All of the JSON %>
-    <script type="application/json" id="bits_json">
-    <%=
-      @bits.inject({}) { |hash, row|
-        namespace, rows = *row
-        hash[namespace] = rows.map {|p| "#{namespace}.#{p.first}" }
-        hash
-      }.to_json
-    %>
-    </script>
-    <script type="application/json" id="party_json">
-    <%= @party.bits.to_json %>
-    </script>
-  </body>
-</html>
+  <%# All of the JSON %>
+  <script type="application/json" id="bits_json">
+  <%=
+  @bits.inject({}) { |hash, row|
+    namespace, rows = *row
+    hash[namespace] = rows.map {|p| "#{namespace}.#{p.first}" }
+    hash
+  }.to_json
+  %>
+  </script>
+  <script type="application/json" id="party_json">
+  <%= @party.bits.to_json %>
+  </script>
+  <script type="text/javascript">
+    PartyView.init();
+  </script>
+</div>

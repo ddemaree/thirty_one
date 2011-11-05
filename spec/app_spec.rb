@@ -1,6 +1,7 @@
 require 'spec_helper'
+require 'capybara/rspec'
 
-describe ThirtyOne::App do
+describe "The web app" do
   include Rack::Test::Methods
 
   let(:app) { ThirtyOne::App }
@@ -20,11 +21,11 @@ describe ThirtyOne::App do
     end
   end
 
-  describe "GET /party/:id" do
+  describe "on GET /party/:id" do
     it 'renders the form'
   end
 
-  describe "POST /party/:id" do
-    it 'saves chanes to the party'
+  describe "on POST /party/:id" do
+    it 'saves changes to the party'
   end
 end

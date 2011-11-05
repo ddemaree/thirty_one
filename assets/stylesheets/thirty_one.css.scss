@@ -58,6 +58,18 @@ body {
   font-family: $sans-serif-fonts;
 }
 
+a {
+  color: #71868C;
+}
+
+a:visited {
+  color: darken(#71868C, 10%);
+}
+
+a:active {
+  color: darken(#71868C, 20%);
+}
+
 .container {
   margin: 0 auto;
   width: percentage(300/320);
@@ -101,7 +113,13 @@ label, input, select, textarea {
   .big-logo {
     margin-bottom: 10px;
   }
+  img {
+    width: 150px;
+  }
   @media screen and (min-width:640px){
+    img {
+      width: 200px;
+    }
     h1 {
       font-size: 36px;
       line-height: 40px;
@@ -257,13 +275,14 @@ label, input, select, textarea {
   }
   &.checked {
     .label-text {
-      background: mix(#fff, #ffa, 60%);
-      color: #222;
+      background: mix(#fff, #ffa, 70%);
+      color: #313131;
       text-shadow: 1px 1px 0 #fff;
     }
   }
   &:active {
     background-color: #e5e5e5;
+    background-color: mix(#fff, #71868C, 85%);
     .label-text { background-color: transparent; }
   }
 }
@@ -289,7 +308,7 @@ label, input, select, textarea {
   }
   .day-header {
     @extend .answer-area-header;
-    
+
     @media screen and (min-width: 1024px) {
       .day-of-week, time {
         display: block;
@@ -350,10 +369,9 @@ label, input, select, textarea {
   .places-list-header {
     @extend .answer-area-header;
     padding: 10px;
-    
+
     h3 {
       font-size: 17px;
-      //padding-left: 5px;
     }
   }
   .places-list-section {
@@ -431,7 +449,7 @@ label, input, select, textarea {
   line-height: 16px;
   padding: 10px 20px 12px;
   text-shadow: 0 1px 1px rgba(#fff, 0.75);
-  
+
   &:hover {
     background-position: 0 -15px;
     color: #333;
@@ -449,7 +467,7 @@ label, input, select, textarea {
   margin-top: 20px;
   padding: 20px 0 80px;
   text-align: center;
-  
+
   h3 {
     font-size: 20px;
     font-weight: 600;
@@ -457,15 +475,15 @@ label, input, select, textarea {
     margin: 0 auto;
     width: percentage(240/300);
   }
-  
+
   ul, p, li {
-    font-family: $serif-fonts;    
+    font-family: $serif-fonts;
     font-size: 15px;
     line-height: 20px;
     margin: 10px auto;
     width: percentage(260/300);
   }
-  
+
   ul {
     list-style-type: square;
     text-align: left;
@@ -477,26 +495,87 @@ label, input, select, textarea {
     li + li {
       margin-top: 5px;
     }
-    
+
     @media screen and (min-width:768px) {
       width: percentage(grid-span(9) / 700px);
     }
   }
-  
+
   p {
     margin: 20px auto;
   }
-  
+
   .btn {
     margin-bottom: 10px;
     width: percentage(280/300);
-    
+
     @media screen and (min-width: 320px){
       width: percentage(440/460);
     }
     @media screen and (min-width: 480px) {
       width: 200px;
       margin-bottom: 0;
+    }
+  }
+}
+
+
+.thanks {
+  padding-bottom: 40px;
+
+  header {
+    padding-bottom: 20px;
+  }
+
+  .party-info {
+    @extend .answer-area;
+    font-family: $serif-fonts;
+    font-size: 15px;
+    line-height: 20px;
+    
+    @media screen and (min-width:640px){
+      font-size: 17px;
+      line-height: 22px;
+      margin: 0 auto;
+      width: 620px;
+    }
+
+    .link, .email {
+      padding: 10px;
+      margin: 10px;
+    }
+
+    .link {
+      border-bottom: 1px solid #ccc;
+      margin-bottom: 0;
+      padding-bottom: 20px;
+    }
+
+    h3 {
+      font-family: $sans-serif-fonts;
+      font-weight: 600;
+      font-size: 19px;
+      line-height: 22px;
+    }
+
+    p + p {
+      margin-top: 10px;
+    }
+
+    .secret-url {
+      font-family: $sans-serif-fonts;
+      font-size: 20px;
+      line-height: 22px;
+      margin: 15px 0;
+      
+      @media screen and (min-width:640px){
+        font-size: 24px;
+        line-height: 26px;
+      }
+
+      a {
+        display: block;
+      }
     }
   }
 }
