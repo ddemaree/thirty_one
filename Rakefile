@@ -2,14 +2,7 @@ task :environment do
   require File.expand_path( "../config/environment", __FILE__ )
 end
 
-# begin
-#   require 'rspec/core/rake_task'
-#   RSpec::Core::RakeTask.new
-# rescue => e
-#   puts "RSpec tasks not available in production"
-# end
-
-task :default => [:spec]
+task :default => ["assets:precompile"]
 
 namespace :assets do
   def precompiled_assets
