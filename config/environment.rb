@@ -9,8 +9,12 @@ Bundler.require :default, ENV['RACK_ENV']
 $:<< File.join( APP_ROOT )
 $:<< File.join( APP_ROOT, "lib" )
 
-require 'active_record'
-dbconfig = YAML.load(ERB.new(File.read('config/database.yml')).result)
-ActiveRecord::Base.establish_connection dbconfig[ENV['RACK_ENV']]
+begin
+  require 'active_record'
+  dbconfig = YAML.load(ERB.new(File.read('config/database.yml')).result)
+  ActiveRecord::Base.establish_connection dbconfig[ENV['RACK_ENV']]
+rescue => e
+  puts "Could not establish ActiveRecord connection: #{e}"
+end
 
 require "thirty_one"
