@@ -1,0 +1,38 @@
+<div class="backend list-parties">
+  <table>
+    <thead><tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Secret URL</th>
+      <th>&nbsp;</th>
+    </tr></thead>
+    <tbody>
+      <% @parties.each do |party| %>
+      <tr>
+        <td class="name"><%= party.name %></td>
+        <td class="email">
+          <a href="mailto:<%= party.email %>">
+            <span><%= party.email %></span>
+          </a>
+        </td>
+        <td class="secret_url">
+          <a href="<%= url("/party/#{party.unique_phrase}") %>">
+            <span><%= url("/party/#{party.unique_phrase}") %></span>
+          </a>
+        </td>
+        <td class="actions">
+          <a href="<%= url("/party/#{party.unique_phrase}") %>" class="btn view"><span>View</span></a>
+          <form action="<%= url("/delete") %>" method="post" class="delete-form">
+            <input type="hidden" name="party_id" value="<%= party.unique_phrase %>" />
+            <button type="submit" class="btn delete">
+              <span>Delete</span>
+            </button>
+          </form>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  
+  
+</div>

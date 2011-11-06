@@ -13,6 +13,20 @@
     </p>
   </header>
 
+  <% if @party.errors.any? %>
+  <div class="error-messages">
+    <h3>Sorry, there was a problem with your form.</h3>
+    <p>Please fix them and try again.</p>
+    <ul>
+      <% @party.errors.full_messages.each do |msg| %>
+        <li class="error">
+          <%= msg %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+
   <form action="<%= @party.persisted? ? url("/party/#{@party.unique_phrase}") : url("/parties") %>" method="post">
     <section class="section row email-section">
       <div class="span4 offset1 section-info">
@@ -22,12 +36,18 @@
       <div class="section-body">
       
         <div class="field" id="party-name">
-          <input type="text" name="party[name]" class="xlarge span7" placeholder="Gene Simmons" value="<%= @party.name %>">
+          <label for="name-input">
+            Your name
+          </label>
+          <input type="text" id="name-input" name="party[name]" class="xlarge span7" placeholder="Gene Simmons" value="<%= @party.name %>">
           <p class="help-block">This field is <strong>required</strong>. Cookies <strong>are</strong> delicious.</p>
         </div>
       
         <div class="field" id="party-email">
-          <input type="text" name="party[email]" class="xlarge span7" placeholder="gene@kissarmy.net" value="<%= @party.email %>">
+          <label for="email-input">
+            Your email address
+          </label>
+          <input type="text" id="email-input" name="party[email]" class="xlarge span7" placeholder="gene@kissarmy.net" value="<%= @party.email %>">
           <p class="help-block">This field is <strong>required</strong>. It <strong>must</strong> be a valid email address. The European debt crisis <strong>is</strong> complicated.</p>
         </div>
         
@@ -73,7 +93,7 @@
                 <% [6,8,10].each do |hour| %>
                 <li>
                   <label data-bind="css: { 'checked': (bits().indexOf('<%= datetime_key_path(day, hour) %>') > -1) }">
-                    <input type="checkbox" name="party[bits][]" value="<%= datetime_key_path(day, hour) %>" data-bind="checked: bits" <%= 'checked' if @party.bits.include?(datetime_key_path(day, hour)) %>>
+                    <input type="checkbox" name="party[bits][]" value="<%= datetime_key_path(day, hour) %>" id="<%= datetime_key_path(day, hour) %>" data-bind="checked: bits" <%= 'checked' if @party.bits.include?(datetime_key_path(day, hour)) %>>
                     <span class="label-text"><%= time_range(hour) %></span>
                   </label>
                 </li>

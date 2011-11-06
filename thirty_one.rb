@@ -25,6 +25,8 @@ module ThirtyOne
   end
 
   class RandomPhrase
+    # Internal: Returns the number of possible values the random
+    # phrase generator could return, as an Integer.
     def self.entropy
       97 * (ADJECTIVES.length * NOUNS.length)
     end
@@ -70,6 +72,10 @@ module ThirtyOne
       "jovially", "merrily", "cordially", "easily"
     ]
 
+    # Public: Generates a more or less random String consisting of
+    # a number between 2 and 99, an English adjective, and an English
+    # plural noun, to be used as a friendly yet still somewhat opaque
+    # unique identifier for DB records, i.e. Parties
     def self.generate
       [].tap do |arr|
         arr << (rand(97)+2).to_s
@@ -79,18 +85,28 @@ module ThirtyOne
       end.join("-")
     end
 
+    # Internal: Fetches a random String value from one of the
+    # dictionary constants defined above. This is its own method
+    # so its can be tested, and stubbed, more easily.
+    # See also random_phrase_spec.rb.
     def self.get_random_value(collection)
       const = "#{self}::#{collection.to_s.upcase}".constantize
       const[rand(const.length)]
     end
   end
 
+  # Abstract superclass for all ActiveRecord models provided by this
+  # mini-app, just in case. (In case of what? I dunno. This is my app.
+  # Go make your own if you'd have done it differently.)
   class Model < ::ActiveRecord::Base
     self.abstract_class = true
   end
 
   class Party < Model
     has_many :party_bits
+    
+    validate :name,  presence: true
+    validate :email, presence: true
 
     def bits
       @bits ||= get_bits!
@@ -108,6 +124,13 @@ module ThirtyOne
 
     def to_param
       unique_phrase || id
+    end
+    
+    before_validation :ensure_datetime_bits
+    def ensure_datetime_bits
+      if !bits.any? { |b| b =~ /^datetime/  }
+        errors[:base] << "You have to choose at least one time when you're available to par-tay"
+      end
     end
 
     # Need to save bits after save
@@ -167,9 +190,9 @@ module ThirtyOne
     end
 
     get '/backend/parties' do
-      halt 401
-      # @parties = Party.order('id ASC').all
-      # erb :all_parties
+      # halt 401
+      @parties = Party.order('id ASC').all
+      erb :list_parties
     end
 
     post '/parties' do
@@ -203,7 +226,7 @@ module ThirtyOne
       erb :thanks
     end
 
-    get '/new_party' do
+    get '/register' do
       params['party'] ||= {}
       params['party']['email'] ||= params['email']
       @party = Party.new(params['party'])
@@ -214,7 +237,7 @@ module ThirtyOne
       if session[:secret_party_id]
         redirect to("/party/#{session[:secret_party_id]}")
       else
-        redirect to("/new_party")
+        redirect to("/register")
       end
     end
 
