@@ -1,4 +1,28 @@
+<%
+if params[:fake_errors]
+  @party.errors[:base] << "Someone is trying to fake an error"
+  @party.errors[:base] << "Middle class can't be blank"
+  @party.errors[:base] << "No, YOU'RE invalid"
+end
+%>
 <div class="party-form">
+  <% if @party.errors.any? %>
+  <div class="error-messages">
+    <header>
+      <h3>Sorry, there <%= @party.errors.count > 1 ? "were some problems" : "was a problem" %> with your form.</h3>
+    </header>
+    <ul>
+      <% @party.errors.full_messages.each do |msg| %>
+        <li class="error">
+          <%= msg %>
+        </li>
+      <% end %>
+    </ul>
+    <footer>
+      <p>Please fix <%= @party.errors.count > 1 ? "them" : "it" %> and try again.</p>
+    </footer>
+  </div>
+  <% else %>
   <header class="banner">
     <div class="big-logo">
       <!-- <img src="http://placehold.it/150x150"> -->
@@ -12,19 +36,6 @@
       If you're interested in coming, in order to schedule and plan this party I will need some information from you. Please fill out the form below precisely as directed, then press the big, shiny submit button at the bottom.
     </p>
   </header>
-
-  <% if @party.errors.any? %>
-  <div class="error-messages">
-    <h3>Sorry, there was a problem with your form.</h3>
-    <p>Please fix them and try again.</p>
-    <ul>
-      <% @party.errors.full_messages.each do |msg| %>
-        <li class="error">
-          <%= msg %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
   <% end %>
 
   <form action="<%= @party.persisted? ? url("/party/#{@party.unique_phrase}") : url("/parties") %>" method="post">
