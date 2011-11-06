@@ -23,12 +23,12 @@ module ThirtyOne
       @bits = YAML.load(ERB.new(File.read("#{APP_ROOT}/db/bits.yml")).result(binding))
     end
   end
-  
+
   class RandomPhrase
     def self.entropy
       97 * (ADJECTIVES.length * NOUNS.length)
     end
-    
+
     ADJECTIVES = [
       "cute", "dapper", "large", "small", "long", "short", "thick", "narrow",
       "deep", "flat", "whole", "low", "high", "near", "far", "fast",
@@ -58,18 +58,18 @@ module ThirtyOne
       "monkeys", "gorillas", "eagles", "lions", "leopards", "tigers", "panthers", "jaguars",
       "bears", "portlanders", "chicagoans", "kestrels", "beagles", "spaniels"
     ]
-    
+
     VERBS = [
       "sang", "played", "knitted", "floundered", "danced", "played", "listened", "ran",
       "talked", "cuddled", "sat", "kissed", "hugged", "whimpered", "hid", "fought",
       "whispered", "cried", "snuggled", "walked", "drove", "loitered", "whimpered", "felt",
-      "jumped", "hopped", "went", "married", "engaged" 
+      "jumped", "hopped", "went", "married", "engaged"
     ]
 
     ADVERBS = [
       "jovially", "merrily", "cordially", "easily"
     ]
-    
+
     def self.generate
       [].tap do |arr|
         arr << (rand(97)+2).to_s
@@ -78,38 +78,38 @@ module ThirtyOne
         end
       end.join("-")
     end
-    
+
     def self.get_random_value(collection)
       const = "#{self}::#{collection.to_s.upcase}".constantize
       const[rand(const.length)]
     end
   end
-  
+
   class Model < ::ActiveRecord::Base
     self.abstract_class = true
   end
-  
+
   class Party < Model
     has_many :party_bits
-    
+
     def bits
       @bits ||= get_bits!
     end
-    
+
     def get_bits!
       @bits = nil
       party_bits.reload
       party_bits.map(&:bit_path)
     end
-    
+
     def bits=(bit_list)
       @bits = bit_list
     end
-    
+
     def to_param
       unique_phrase || id
     end
-    
+
     # Need to save bits after save
     after_save :update_bits
     def update_bits
@@ -120,21 +120,21 @@ module ThirtyOne
         end
       end
     end
-    
+
     before_create :generate_unique_phrase
     def generate_unique_phrase
       self.unique_phrase ||= ThirtyOne::RandomPhrase.generate
     end
-    
+
   end
-  
+
   class PartyBit < Model
     belongs_to :party
   end
 
   class App < ::Sinatra::Base
     enable :sessions
-    
+
     helpers do
       def datetime_key_path(date, hour=nil)
         "".tap do |output|
@@ -142,7 +142,7 @@ module ThirtyOne
           output << ".#{hour}p" if hour
         end
       end
-      
+
       def time_range(hour)
         "#{hour}#{hour+2 < 12 ? '' : 'pm'}&ndash;#{hour+2}#{hour+2 < 12 ? 'pm' : 'am'}"
       end
@@ -156,7 +156,7 @@ module ThirtyOne
         "#{namespace.to_s}.#{value.to_s}"
       end
     end
-    
+
     before do
       @days = (Date.parse("2011-12-01")..Date.parse("2011-12-05"))
       @bits = Bit.all
@@ -165,8 +165,14 @@ module ThirtyOne
     get '/data' do
       "<pre>#{@bits.inspect}</pre>"
     end
-    
-    post '/parties' do      
+
+    get '/backend/parties' do
+      halt 401
+      # @parties = Party.order('id ASC').all
+      # erb :all_parties
+    end
+
+    post '/parties' do
       @party = Party.new params[:party]
       if @party.save
         redirect to("/thanks/#{@party.unique_phrase}")
@@ -174,7 +180,7 @@ module ThirtyOne
         erb :index
       end
     end
-    
+
     post '/party/:id' do |id|
       @party = Party.find_by_unique_phrase(id) || Party.find(id)
       if @party.update_attributes(params[:party])
@@ -184,13 +190,13 @@ module ThirtyOne
         erb :index
       end
     end
-    
+
     get '/party/:id' do |id|
       @party = Party.find_by_unique_phrase(id) || Party.find(id)
       session[:secret_party_id] = @party.unique_phrase
       erb :index
     end
-    
+
     get '/thanks/:party_id' do |party_id|
       @party = Party.find_by_unique_phrase!(party_id)
       session[:secret_party_id] = @party.unique_phrase

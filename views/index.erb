@@ -30,6 +30,15 @@
           <input type="text" name="party[email]" class="xlarge span7" placeholder="gene@kissarmy.net" value="<%= @party.email %>">
           <p class="help-block">This field is <strong>required</strong>. It <strong>must</strong> be a valid email address. The European debt crisis <strong>is</strong> complicated.</p>
         </div>
+        
+        <div class="field" id="party-guests">
+          <label for="guests">Including myself, I'm bringing</label>
+          <select id="guests" name="party[guests]">
+            <% (1..4).each do |x| %>
+            <option value="<%= x %>" <%= 'selected' if @party.guests == x %>><%= "#{x} #{x > 1 ? 'people' : 'person'}" %></option>
+            <% end %>
+          </select>
+        </div>
       
         <!-- <p class="section-notes">An added bonus: Further spam related to this birthday will be sent <em>only</em> to the email address you provide here.</p> -->
       
