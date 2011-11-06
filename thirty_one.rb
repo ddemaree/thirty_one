@@ -105,8 +105,9 @@ module ThirtyOne
   class Party < Model
     has_many :party_bits
     
-    validate :name,  presence: true
-    validate :email, presence: true
+    validates :name,  presence: true
+    validates :email, presence: true
+    validate :ensure_bits_include_time
 
     def bits
       @bits ||= get_bits!
@@ -126,8 +127,7 @@ module ThirtyOne
       unique_phrase || id
     end
     
-    before_validation :ensure_datetime_bits
-    def ensure_datetime_bits
+    def ensure_bits_include_time
       if !bits.any? { |b| b =~ /^datetime/  }
         errors[:base] << "You have to choose at least one time when you're available to par-tay"
       end

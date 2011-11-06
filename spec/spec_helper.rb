@@ -4,6 +4,9 @@ require File.expand_path('../../config/environment', __FILE__)
 require "rack/test"
 require 'active_support/core_ext/kernel'
 
+require 'database_cleaner'
+DatabaseCleaner.strategy = :transaction
+
 schema_file = ENV['SCHEMA'] || "#{APP_ROOT}/db/schema.rb"
 if File.exists?(schema_file)
   load(schema_file)
