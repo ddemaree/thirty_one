@@ -146,6 +146,13 @@ label, input, select, textarea {
       width: 200px;
     }
   }
+  // iPhone in landscape mode
+  // Float the '31' bug to the right to adjust for a landscape iPhone's
+  // tiny-ish viewport height
+  @media only screen and (min-width:321px) and (max-device-width:480px){
+    padding-top: 10px;
+    img { float: right; margin-left: 10px; margin-top: 15px; }
+  }
 }
 
 .help-block {
