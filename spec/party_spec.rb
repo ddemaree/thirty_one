@@ -15,6 +15,14 @@ describe ThirtyOne::Party do
     new_party.unique_phrase.should == "3-saucy-calamari"
   end
   
+  it "validates name and email are present" do
+    new_party = ThirtyOne::Party.new
+    new_party.should_not be_valid
+    
+    new_party.errors[:name].should include("can't be blank")
+    new_party.errors[:email].should include("can't be blank")
+  end
+  
   it "validates at least one bit is a datetime" do
     new_party = FactoryGirl.build(:party, bits: ["dinner.longman_and_eagle"])
     new_party.should_not be_valid
