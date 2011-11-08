@@ -143,7 +143,7 @@ end
                   </h3>
                 </div>
                 <ul class="unstyled places">
-                  <% @bits[namespace].each do |key, name| %>
+                  <% @bits[namespace].shuffle.each do |key, name| %>
                     <li>
                       <label data-bind="css: { 'checked': (bits().indexOf('<%= namespace %>.<%= key %>') > -1) }">
                         <input name="party[bits][]" type="checkbox" value="<%= namespace %>.<%= key %>" data-bind="checked: bits" <%= 'checked' if @party.bits.include?("#{namespace}.#{key}") %>>
