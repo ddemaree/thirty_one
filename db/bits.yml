@@ -11,7 +11,6 @@
     longman_and_eagle: "Longman & Eagle"
     de_cero: "de Cero"
     avec: "Avec"
-    the_southern: "The Southern"
     big_star: "Big Star"
     the_publican: "The Publican"
     potluck: "Potluck at David's House"
@@ -21,10 +20,9 @@
     violet_hour: "The Violet Hour"
     big_star: "Big Star"
   activities:
-    rock_band: "Rock Band"
+    house_party: "House party"
     wii_sports: "Wii Sports"
     mario_kart: "Mario Kart"
     board_games: "Epic board game night"
     bowling: "Bowling"
     poker: "Texas Hold 'Em"
-    
